@@ -51,4 +51,36 @@ ADD CONSTRAINT fk_fornitore
 FOREIGN KEY (numerofornitore)
 REFERENCES Fornitori (numerofornitore);
 
+Per avere dei dati su cui eseguire le consegne, inserisco dei dati nel db
+
+INSERT INTO Clienti (nome, cognome, annodinascita, regioneresidenza)
+VALUES ('Mario', 'Rossi', '17-09-1989', 'LZ'),
+('Mario', 'Bianchi', '03-11-1991', 'LB'), 
+('Simone', 'Verdi', '04-09-1991', 'BZ'), 
+('Marco', 'Gialli', '17-07-1991', 'AP'), 
+('Davide', 'Neri', '22-12-1992', 'SD')
+
+Consegna 1:
+
+SELECT * FROM public.clienti
+WHERE nome = 'Mario'
+ORDER BY ncliente ASC 
+
+Consegna 2:
+
+INSERT INTO Clienti (nome, cognome, annodinascita, regioneresidenza)
+VALUES ('Manichino', 'Nostalgico', '17-09-1982', 'LZ'),
+('Disco', 'Inferno', '03-11-1982', 'LB')
+
+
+SELECT * FROM public.clienti
+WHERE annodinascita BETWEEN '1982-01-01' AND '1982-12-31'
+ORDER BY ncliente ASC 
+
+Consegna 3:
+
+SELECT * FROM public.fatture
+WHERE iva = 20.0
+
+Consegna 4:
 
