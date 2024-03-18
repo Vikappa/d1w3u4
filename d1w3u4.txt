@@ -1,0 +1,54 @@
+Per creare le tabelle ho usato gli strumenti di pgAdmin 4, ma se avessi voluto creare le tabelle da consolle avrei scritto:
+
+CREATE TABLE IF NOT EXISTS Fatture (
+    nFattura SERIAL PRIMARY KEY,
+    tipologia VARCHAR(255),
+    importo DECIMAL(10,2),
+    iva DECIMAL(10,2),
+    idcliente INTEGER,
+    datafattura DATE,
+    numerofornitore INTEGER
+);
+
+Sono partito da Fatture perchè gerarchicamente superiore alle altre tabelle; questa è l'unica tabella ad avere una relazione univoca con le altre tre tabelle indipendentemente, mentre le altre sono tutte "dipendono" da fatture. 
+Ho usato serial per avere un valore autoincrementate da non dover gestire a parte. 
+Le altre tabelle si creano con 
+
+CREATE TABLE IF NOT EXISTS Clienti (
+    NumeroCliente SERIAL PRIMARY KEY,
+    Nome VARCHAR(255),
+    Cognome VARCHAR(255),
+    AnnoDiNascita DATE,
+    RegioneResidenza VARCHAR(255)
+);
+
+CREATE TABLE IF NOT EXISTS Prodotti (
+    IdProdotto SERIAL PRIMARY KEY,
+    Descrizione VARCHAR(255),
+    InProduzione BOOLEAN, 
+    InCommercio BOOLEAN,
+    DataAttivazione DATE,
+    DataDisattivazione DATE
+);
+
+CREATE TABLE IF NOT EXISTS Fornitori (
+    NumeroFornitore SERIAL PRIMARY KEY,
+    Denominazione VARCHAR(255),
+    RegioneResidenza VARCHAR(255)
+);
+
+
+Stabilita la logica della gerarchia, associo il campo idCliente (che può anche essere null) al campo Clienti (numeroCliente)
+
+ALTER TABLE Fatture
+ADD CONSTRAINT fk_cliente
+FOREIGN KEY (idcliente)
+REFERENCES Clienti (nCliente);
+
+
+ALTER TABLE Fatture
+ADD CONSTRAINT fk_fornitore
+FOREIGN KEY (numerofornitore)
+REFERENCES Fornitori (numerofornitore);
+
+
